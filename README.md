@@ -1,45 +1,98 @@
-## Objetivo
-O objetivo é entender melhor como classificar títulos de notícias e textos em geral, a partir de **dados pré-rotulados**, utilizando modelos de **aprendizado de máquina supervisionado**.
+# Classificador de Comentários
 
-![Amostras](/imgs/under_samples_freqs.png)
+Classifica comentários por **sentimento**, **intenção** ou **toxicidade** usando a API do Groq (Llama 3).
 
-## Descrição
-Desafio de classificação automática de títulos de notícias, um problema comum em processamento de linguagem natural (PLN). Ao treinar e avaliar diferentes modelos de aprendizado de máquina, buscamos encontrar a melhor abordagem. Permitindo aplicações em diversas áreas, como organização de conteúdo, recomendação de notícias e detecção de tendências.
+## Pré-requisitos
 
-## Classificador
-Este classificador utiliza bibliotecas como:
-- scikit-learn (sklearn)
-- NLTK
+- Python 3.9+
+- Chave de API do Groq: [console.groq.com](https://console.groq.com)
 
-Analisando dados, treinando e avaliando modelos como:
-- Regressão Logística (LR)
-- Naive Bayes Multinomial (NB)
-- Máquina de Vetores de Suporte Linear (SVM)
-- Floresta Aleatória (RF)
+## Instalação
 
-![Precisão](/imgs/accuracy.png)
+**1. Entre na pasta do projeto:**
+```bash
+cd classificador-comentarios
+```
 
-## Exemplos de Classificação
-- **Texto:** Os estudantes de engenharia demoram o dobro do tempo na faculdade.
-  - **Predição:** educação
+**2. Crie o ambiente virtual:**
 
-- **Texto:** O vírus comeu o solto.
-  - **Predição:** saúde
+Windows:
+```cmd
+python -m venv venv
+venv\Scripts\activate
+```
 
-- **Texto:** Jogar League of Legends dá raiva.
-  - **Predição:** esporte
+Linux / macOS:
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
 
-- **Texto:** Eu gosto de carros
-  - **Predição:** carro
+**3. Instale as dependências:**
+```bash
+pip install -r requirements.txt
+```
 
-## [Treinamento](./classifier.ipynb)
-Exemplo da estrutura de dados utilizados:
-| Class | Text |
-|----------|----------|
-| esporte   | Protesto antes mesmo do jogo   |
-| economia   | O que é o FGTS, como funciona e quem pode sacar?   |
-| carro   | Como é o Renault Kwid elétrico   |
-| economia |  O que é inflação? Entenda  |
+## Configuração
 
-## Conclusão
-O modelo que apresentou o melhor desempenho, levando em conta a acurácia, foi **Regressão Logística (LR)**.
+**Windows (cmd):**
+```cmd
+set GROQ_API_KEY=sua_chave_aqui
+```
+
+**Windows (PowerShell):**
+```powershell
+$env:GROQ_API_KEY="sua_chave_aqui"
+```
+
+**Linux / macOS:**
+```bash
+export GROQ_API_KEY=sua_chave_aqui
+```
+
+## Executar
+
+```bash
+python src/main.py
+```
+
+Acesse em: `http://localhost:5001`
+
+## Como usar
+
+1. Selecione o **Tipo de Análise**:
+   - **Sentimento** — Positivo / Negativo / Neutro / Misto
+   - **Intenção** — Elogio / Reclamação / Sugestão / Dúvida / Spam
+   - **Toxicidade** — Seguro / Levemente Ofensivo / Ofensivo / Muito Ofensivo
+
+2. Selecione o **Idioma** do comentário (Português, Inglês, Espanhol ou Automático).
+
+3. Cole ou digite o comentário no campo de texto (até 2000 caracteres).
+
+4. Clique em **Classificar Comentário**.
+
+## Resultado
+
+- **Badge** com a classificação e cor correspondente
+- **Barra de confiança** de 0 a 100%
+- **Análise** com justificativa da classificação
+- **Tom** detectado no texto
+- **Palavras-chave** relevantes
+
+## Modelos utilizados (em ordem de prioridade)
+
+1. `llama-3.3-70b-versatile`
+2. `llama-3.1-8b-instant` *(fallback)*
+
+Em caso de rate limit, o sistema troca automaticamente para o próximo modelo.
+
+## Estrutura
+
+```
+classificador-comentarios/
+├── requirements.txt
+└── src/
+    ├── main.py          # backend Flask + lógica de classificação
+    └── static/
+        └── index.html   # interface web
+```
