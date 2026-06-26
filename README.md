@@ -2,6 +2,12 @@
 
 Classifica comentários por **sentimento**, **intenção** ou **toxicidade** usando a API do Groq (Llama 3).
 
+## Screenshots
+
+![Opções de análise](imgs/opcoes-comentarios.png)
+
+![Resultado da análise](imgs/analise-comentario.png)
+
 ## Pré-requisitos
 
 - Python 3.9+
@@ -57,6 +63,7 @@ python src/main.py
 ```
 
 Acesse em: `http://localhost:5001`
+
 
 ## Como usar
 
